@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="ka">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TD VR - საგანმანათლებლო კოსმოსური სათავგადასავლო თამაში</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@400;700&display=swap');
+
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --dark-color: #2c3e50;
+            --light-color: #ecf0f1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans Georgian', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--dark-color);
+            overflow-x: hidden;
+            background-color: #000;
+        }
+
+        header {
+            background: rgba(44, 62, 80, 0.9);
+            color: var(--light-color);
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            transition: background 0.3s ease;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--light-color);
+            text-decoration: none;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 2rem;
+        }
+
+        nav a {
+            color: var(--light-color);
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--primary-color);
+        }
+
+        .hero {
+            height: 100vh;
+            background: url('https://images.unsplash.com/photo-1451187580459-43490279c0fa?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--light-color);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-out 0.5s;
+            animation-fill-mode: both;
+        }
+
+        .btn {
+            display: inline-block;
+            background: var(--primary-color);
+            color: var(--light-color);
+            padding: 0.7rem 1.5rem;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s ease, transform 0.3s ease;
+            animation: fadeInUp 1s ease-out 1s;
+            animation-fill-mode: both;
+        }
+
+        .btn:hover {
+            background: #2980b9;
+            transform: translateY(-3px);
+        }
+
+        section {
+            padding: 4rem 2rem;
+            background-color: var(--light-color);
+        }
+
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .fade-in.appear {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .idea-section, .prototype-section, .team-section, .future-section {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            padding: 2rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin-bottom: 2rem;
+        }
+
+        .section-image {
+            flex: 1;
+            max-width: 500px;
+            margin-right: 2rem;
+        }
+
+        .section-image img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .section-image img:hover {
+            transform: scale(1.05);
+        }
+
+        .section-info {
+            flex: 1;
+        }
+
+        .section-info h3 {
+            color: var(--dark-color);
+            margin-bottom: 1rem;
+        }
+
+        .section-info p {
+            margin-bottom: 1rem;
+        }
+
+        .section-info ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .section-info ul li {
+            margin-bottom: 0.5rem;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .section-info ul li::before {
+            content: '\2022';
+            color: var(--primary-color);
+            font-weight: bold;
+            position: absolute;
+            left: 0;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .team-member {
+            background: #f9f9f9;
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .team-member:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .team-member img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .team-member:hover img {
+            transform: scale(1.1);
+        }
+
+        .team-member h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .team-member p {
+            font-style: italic;
+            color: #666;
+        }
+
+        footer {
+            background: var(--dark-color);
+            color: var(--light-color);
+            padding: 2rem 0;
+            text-align: center;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .idea-section, .prototype-section, .team-section, .future-section {
+                flex-direction: column;
+            }
+
+            .section-image {
+                margin-right: 0;
+                margin-bottom: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="#" class="logo">ExoQuest VR</a>
+            <ul>
+                <li><a href="#home">მთავარი</a></li>
+                <li><a href="#idea">იდეა</a></li>
+                <li><a href="#prototype">პროტოტიპი</a></li>
+                <li><a href="#team">გუნდი</a></li>
+                <li><a href="#future">სამომავლო გეგმები</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1>TD VR</h1>
+            <p>საგანმანათლებლო კოსმოსური სათავგადასავლო თამაში</p>
+            <a href="#idea" class="btn">გაიგეთ მეტი</a>
+        </div>
+    </section>
+
+    <section id="idea" class="fade-in">
+        <h2>ჩვენი იდეა</h2>
+        <div class="idea-section">
+            <div class="section-image">
+                <img src="https://images.unsplash.com/photo-1614728263952-84ea256f9679?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80" alt="ExoQuest VR იდეა">
+            </div>
+            <div class="section-info">
+                <h3>ეგზოპლანეტების გამოკვლევის ქრონიკები</h3>
+                <p>ExoQuest VR არის ინოვაციური საგანმანათლებლო VR თამაში, სადაც ორი მეგობარი უეცრად იღვიძებს და ხედავს, რომ დედამიწაზე ყველაფერი ქრება. ისინი იგებენ ამის შესახებ და ცდილობენ იპოვონ რესურსები, რათა გაემგზავრონ ეგზოპლანეტებზე.</p>
+                <ul>
+                    <li>იმერსიული VR გამოცდილება</li>
+                    <li>საგანმანათლებლო კონტენტი ეგზოპლანეტების შესახებ</li>
+                    <li>თანამშრომლობითი თამაში</li>
+                    <li>პრობლემების გადაჭრა და კრიტიკული აზროვნება</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="prototype" class="fade-in">
+        <h2>ჩვენი პროტოტიპი</h2>
+        <div class="prototype-section">
+            <div class="section-image">
+                <img src="https://images.unsplash.com/photo-1592478411213-6153e4ebc07d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1920&q=80" alt="ExoQuest VR პროტოტიპი">
+            </div>
+            <div class="section-info">
+                <h3>ინოვაციური VR გამოცდილება</h3>
+                <p>ჩვენი პროტოტიპი წარმოადგენს VR თამაშის პირველ დონეს, სადაც მოთამაშეები იწყებენ თავიანთ თავგადასავალს დედამიწაზე და ემზადებიან ეგზოპლანეტებზე გასამგზავრებლად.</p>
+                <ul>
+                    <li>რეალისტური VR გარემო</li>
+                    <li>ინტერაქტიული ობიექტები და გამოცანები</li>
+                    <li>დინამიური ამინდის სისტემა</li>
+                    <li>AI-ს მიერ მართული NPC-ები</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="team" class="fade-in">
+        <h2>ჩვენი გუნდი</h2>
+        <div class="team-grid">
+            <div class="team-member">
+                <img src="/images/461509591_860182886232234_2323395132163722468_n.jpg" alt="გიორგი მაისურაძე">
+                <h3>დავით ჯაჭვაძე</h3>
+                <p> დეველოპერი</p>
+            </div>
+            <div class="team-member">
+                <img src="images/462005907_3370714146571564_9100219612080003120_n.jpg" alt="თენგო კიტრიაშვილი">
+                <h3>თენგო კიტრიაშვილი</h3>
+                <p>3D მოდელირება და ანიმაცია</p>
+            </div>
+            
+        </div>
+    </section>
+
+    <section id="future" class="fade-in">
+        <h2>სამომავლო გეგმები</h2>
+        <div class="future-section">
+            <div class="section-image">
+                <img src="/images/Leonardo_Phoenix_A_futuristic_vibrant_and_dynamic_wallpaper_fo_2.jpg" alt="ExoQuest VR სამომავლო გეგმები">
+            </div>
+            <div class="section-info">
+                <h3>მომავლის ხედვა</h3>
+                <p>ჩვენი სამომავლო გეგმები მოიცავს ExoQuest VR-ის გაფართოებას და გაუმჯობესებას, რათა შევქმნათ უფრო იმერსიული და საგანმანათლებლო გამოცდილება.</p>
+                <ul>
+                    <li>დამატებითი ეგზოპლანეტების დამატება გამოსაკვლევად</li>
+                    <li>მულტიპლეიერის რეჟიმის დანერგვა</li>
+                    <li>თანამშრომლობა ასტრონომებთან და მეცნიერებთან კონტენტის გასამდიდრებლად</li>
+                    <li>საგანმანათლებლო დაწესებულებებთან პარტნიორობა</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <style>
+            footer {
+                background: #2c3e50;
+                color: #ecf0f1;
+                padding: 3rem 0 1rem;
+            }
+        
+            .footer-content {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 0 2rem;
+            }
+        
+            .footer-section {
+                flex: 1;
+                margin-bottom: 2rem;
+                min-width: 200px;
+            }
+        
+            .footer-section h3 {
+                margin-bottom: 1rem;
+                font-size: 1.2rem;
+            }
+        
+            .footer-section ul {
+                list-style: none;
+                padding: 0;
+            }
+        
+            .footer-section ul li {
+                margin-bottom: 0.5rem;
+            }
+        
+            .footer-section ul li a {
+                color: #ecf0f1;
+                text-decoration: none;
+                transition: color 0.3s ease;
+            }
+        
+            .footer-section ul li a:hover {
+                color: #3498db;
+            }
+        
+            .social-icons {
+                display: flex;
+                gap: 1rem;
+            }
+        
+            .social-icon {
+                display: inline-block;
+                width: 40px;
+                height: 40px;
+                background: #3498db;
+                color: #ecf0f1;
+                text-align: center;
+                line-height: 40px;
+                border-radius: 50%;
+                transition: background 0.3s ease;
+            }
+        
+            .social-icon:hover {
+                background: #2980b9;
+            }
+        
+            .footer-bottom {
+                text-align: center;
+                padding-top: 2rem;
+                margin-top: 2rem;
+                border-top: 1px solid rgba(255, 255, 255, 0.1);
+            }
+        
+            @media (max-width: 768px) {
+                .footer-content {
+                    flex-direction: column;
+                }
+        
+                .footer-section {
+                    margin-bottom: 2rem;
+                }
+            }
+        </style>
+        
+        <footer>
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>ExoQuest VR</h3>
+                    <p>საგანმანათლებლო კოსმოსური სათავგადასავლო თამაში</p>
+                </div>
+                <div class="footer-section">
+                    <h3>ნავიგაცია</h3>
+                    <ul>
+                        <li><a href="#home">მთავარი</a></li>
+                        <li><a href="#idea">იდეა</a></li>
+                        <li><a href="#prototype">პროტოტიპი</a></li>
+                        <li><a href="#team">გუნდი</a></li>
+                        <li><a href="#future">სამომავლო გეგმები</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>კონტაქტი</h3>
+                    <p>Email: info@exoquestvr.com</p>
+                    <p>ტელ: +995 555 12 34 56</p>
+                </div>
+                <div class="footer-section">
+                    <h3>სოციალური ქსელები</h3>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon">FB</a>
+                        <a href="#" class="social-icon">TW</a>
+                        <a href="#" class="social-icon">IG</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                
+            </div>
+        <p>&copy; 2024 ExoQuest VR. ყველა უფლება დაცულია.</p>
+    </footer>
+
+    <script>
+        const faders = document.querySelectorAll('.fade-in');
+        const header = document.querySelector('header');
+
+        const appearOptions = {
+            threshold: 0.3,
+            rootMargin: "0px 0px -100px 0px"
+        };
+
+        const appearOnScroll = new IntersectionObserver(function(entries, appearOnScroll) {
+            entries.forEach(entry => {
+                if (!entry.isIntersecting) {
+                    return;
+                } else {
+                    entry.target.classList.add('appear');
+                    appearOnScroll.unobserve(entry.target);
+                }
+            });
+        }, appearOptions);
+
+        faders.forEach(fader => {
+            appearOnScroll.observe(fader);
+        });
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.style.background = 'rgba(44, 62, 80, 0.9)';
+            } else {
+                header.style.background = 'transparent';
+            }
+        });
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
